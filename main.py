@@ -11,8 +11,8 @@ from numpy import array
 from discord.ext import commands
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+#load_dotenv()
+#TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='happy ')
 
@@ -412,4 +412,4 @@ async def rule34(ctx, *arg):
                          icon_url='https://cdn.discordapp.com/avatars/268211297332625428/e5e43e26d4749c96b48a9465ff564ed2.png?size=128')
         await ctx.send(embed=embed)
 
-bot.run(TOKEN)
+bot.run(os.environ['TOKEN'])
