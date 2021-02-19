@@ -1,1 +1,3 @@
 discord
+rule34
+asyncio
