@@ -5,7 +5,6 @@ import urllib.request as u
 import time
 import asyncio
 import os
-import requests
 import xml.etree.ElementTree as et
 
 from numpy import array
