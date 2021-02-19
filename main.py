@@ -9,10 +9,11 @@ import xml.etree.ElementTree as et
 
 from numpy import array
 from discord.ext import commands
-#from dotenv import load_dotenv
 
-#load_dotenv()
-#TOKEN = os.getenv('DISCORD_TOKEN')
+# from dotenv import load_dotenv
+
+# load_dotenv()
+# TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='happy ')
 
@@ -24,19 +25,24 @@ beforeling = 0
 ltime = time.asctime(time.localtime())
 r = rule34.Rule34
 
+
 @bot.command(name='ayudita')
 async def ayudita(ctx):
-	embed=discord.Embed(title="Ayudita de HappyBot", description="El prefijo es happy", color=0xff80ff)
-	embed.set_author(name=f'{ctx.author.display_name}', icon_url=f'{ctx.author.avatar_url}')
-	embed.add_field(name="rule34 [tags]", value="Devuelve una imagen desde Rule34 según el tag.", inline=False)
-	embed.add_field(name="bolita8 [pregunta]", value="Devuelve una respuesta ingeniosa basada en Happy.", inline=False)
-	embed.add_field(name="refinado [tier] [cantidad] [devolucion]", value="Devuelve la cantidad de material refinado y bruto que se necesita para refinar una cantidad deseada de material.", inline=False)
-	await ctx.send(embed=embed)
+    embed = discord.Embed(title="Ayudita de HappyBot", description="El prefijo es happy", color=0xff80ff)
+    embed.set_author(name=f'{ctx.author.display_name}', icon_url=f'{ctx.author.avatar_url}')
+    embed.add_field(name="rule34 [tags]", value="Devuelve una imagen desde Rule34 según el tag.", inline=False)
+    embed.add_field(name="bolita8 [pregunta]", value="Devuelve una respuesta ingeniosa basada en Happy.", inline=False)
+    embed.add_field(name="refinado [tier] [cantidad] [devolucion]",
+                    value="Devuelve la cantidad de material refinado y bruto que se necesita para refinar una cantidad deseada de material.",
+                    inline=False)
+    await ctx.send(embed=embed)
+
 
 @bot.event
 async def on_ready():
-	print(f'[INFO {ltime}]: Logged in as {bot.user.name}!')
-	await statuschange()
+    print(f'[INFO {ltime}]: Logged in as {bot.user.name}!')
+    await statuschange()
+
 
 def xmlparse(str):
     root = et.parse(u.urlopen(str))
@@ -84,6 +90,7 @@ def rdl(str, int):
         print(f'[INFO {ltime}]: Not a webm, dont recurse.')
     return wr
 
+
 async def statuschange():
     while True:
         await bot.change_presence(activity=discord.Game(name='con mi vagina'))
@@ -91,33 +98,32 @@ async def statuschange():
         await bot.change_presence(activity=discord.Game(name='happy ayudita'))
         await asyncio.sleep(5)
 
-def calculoprincipal(tier, quantity, percent):
 
+def calculoprincipal(tier, quantity, percent):
     global mineralneed
     global beforeling
 
-    #Calcula el porcentaje de la devolucion
+    # Calcula el porcentaje de la devolucion
     calculatedpercent = (float(percent) - float(1.1)) / 100
 
-    #Calcula el mineral a utilizar sin devolucion
+    # Calcula el mineral a utilizar sin devolucion
     prueba = TValue[tier]
     mineral = int(quantity) * prueba
 
-    #Calcula la devolucion por el porcentaje
+    # Calcula la devolucion por el porcentaje
     devolution = round(int(mineral) * float(calculatedpercent))
 
-    #Calcula mineral con devolucion
+    # Calcula mineral con devolucion
     mineralneed = int(mineral) - int(devolution)
 
-
-    #Calcula la cantidad de lingotes del tier anterior
+    # Calcula la cantidad de lingotes del tier anterior
     beforeling = int(quantity) - round((int(quantity) * calculatedpercent))
 
 
 @bot.command(name='bolita8')
 async def bolita8(ctx, *, question):
     embed = discord.Embed(
-        title= 'Pregunta de Bolita8',
+        title='Pregunta de Bolita8',
         description='',
         colour=discord.Colour.blue()
     )
@@ -198,7 +204,6 @@ async def bolita8(ctx, *, question):
     embed.add_field(name='Pregunta:', value=question, inline=False)
     embed.add_field(name='Respuesta:', value=random.choice(responses), inline=False)
     await ctx.send(embed=embed)
-
 
 
 @bot.command(name='refinado')
@@ -380,6 +385,7 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
+
 @bot.command(name='rule34')
 async def rule34(ctx, *arg):
     answer = ''
@@ -411,5 +417,6 @@ async def rule34(ctx, *arg):
         embed.set_footer(text="Te gusta lo que ves ?",
                          icon_url='https://cdn.discordapp.com/avatars/268211297332625428/e5e43e26d4749c96b48a9465ff564ed2.png?size=128')
         await ctx.send(embed=embed)
+
 
 bot.run(os.environ['TOKEN'])
