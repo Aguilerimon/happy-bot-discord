@@ -33,7 +33,8 @@ async def ayudita(ctx):
     embed.add_field(name="rule34 [tags]", value="Devuelve una imagen desde Rule34 según el tag.", inline=False)
     embed.add_field(name="bolita8 [pregunta]", value="Devuelve una respuesta ingeniosa basada en Happy.", inline=False)
     embed.add_field(name="refinado [tier] [cantidad] [devolucion]",
-                    value="Devuelve la cantidad de material refinado y bruto que se necesita para refinar una cantidad deseada de material.",
+                    value="Devuelve la cantidad de material refinado y bruto que se necesita para refinar una "
+                          "cantidad deseada de material.",
                     inline=False)
     await ctx.send(embed=embed)
 
@@ -415,7 +416,8 @@ async def rule34(ctx, *arg):
         embed.set_thumbnail(url='https://rule34.paheal.net/themes/rule34v2/rule34_logo_top.png')
         embed.set_image(url=f'{answer}')
         embed.set_footer(text="Te gusta lo que ves ?",
-                         icon_url='https://cdn.discordapp.com/avatars/268211297332625428/e5e43e26d4749c96b48a9465ff564ed2.png?size=128')
+                         icon_url='https://cdn.discordapp.com/avatars/268211297332625428'
+                                  '/e5e43e26d4749c96b48a9465ff564ed2.png?size=128')
         await ctx.send(embed=embed)
 
 
