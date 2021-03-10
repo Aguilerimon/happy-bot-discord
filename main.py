@@ -1,19 +1,13 @@
 import discord
 import random
 import rule34
-import urllib.request as u
 import time
 import asyncio
 import os
-import xml.etree.ElementTree as et
 
+from funciones import xmlcount, randomize
 from numpy import array
 from discord.ext import commands
-
-# from dotenv import load_dotenv
-
-# load_dotenv()
-# TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='happy ')
 
@@ -43,53 +37,6 @@ async def ayudita(ctx):
 async def on_ready():
     print(f'[INFO {ltime}]: Logged in as {bot.user.name}!')
     await statuschange()
-
-
-def xmlparse(str):
-    root = et.parse(u.urlopen(str))
-    for i in root.iter('post'):
-        fileurl = i.attrib['file_url']
-        return fileurl
-
-
-def xmlcount(str):
-    root = et.parse(u.urlopen(str))
-    for i in root.iter('posts'):
-        count = i.attrib['count']
-        return count
-
-
-def pidfix(str):
-    ye = int(xmlcount(r.urlGen(tags=str, limit=1)))
-    ye = ye - 1
-    return ye
-
-
-def rdl(str, int):
-    print(f'[INFO {ltime}]: integer provided: {int}')
-
-    if int > 2000:
-        int = 2000
-    if int == 0:
-        int == 0
-        print(f'[INFO {ltime}]: Integer is 0, accommodating for offset overflow bug. ')
-    elif int != 0:
-        int = random.randint(1, int)
-    print(f'[INFO {ltime}]: integer after randomizing: {int}')
-    xurl = r.urlGen(tags=str, limit=1, PID=int)
-    print(xurl)
-    wr = xmlparse(xurl)
-
-    if 'webm' in wr:
-        if 'sound' not in str:
-            if 'webm' not in str:
-                print(f'[INFO {ltime}]: We got a .webm, user didnt specify sound. Recursing. user tags: {str}')
-                wr = rdl(str, pidfix(str))
-        else:
-            pass
-    elif 'webm' not in wr:
-        print(f'[INFO {ltime}]: Not a webm, dont recurse.')
-    return wr
 
 
 async def statuschange():
@@ -202,9 +149,18 @@ async def bolita8(ctx, *, question):
                  'Aunque a veces no responda bien, espero que sigas hablandome Q.Q.',
                  'Son tantos a la vez que me pierdo.']
 
-    embed.add_field(name='Pregunta:', value=question, inline=False)
+    embed.add_field(name=ctx.author.display_name + ' Pregunta:', value=question, inline=False)
     embed.add_field(name='Respuesta:', value=random.choice(responses), inline=False)
     await ctx.send(embed=embed)
+
+
+@bolita8.error
+async def bolita8_error(ctx, error):
+    if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
+        embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
+        embed.add_field(name="Error de sintaxis", value="**Debes realizar una pregunta.**", inline=False)
+        embed.add_field(name="Ejemplo", value="**happy bolita8 Me quieres?**", inline=False)
+        await ctx.send(embed=embed)
 
 
 @bot.command(name='refinado')
@@ -215,13 +171,13 @@ async def refinado(ctx, tier, quantity, percent):
         colour=discord.Colour.blue()
     )
 
-    if tier == 'T2':
-        tierValue = 0
+    if tier == 'T2' or tier == 't2':
+        tiervalue = 0
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -236,38 +192,13 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
-    elif tier == 'T3':
-        tierValue = 1
+    elif tier == 'T3' or tier == 't3':
+        tiervalue = 1
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
-            calculoprincipal(n, quantity, percent)
-            tiertotal += str(n + 2) + '\n'
-            mineraltotal += str(mineralneed) + '\n'
-            if n != 0:
-                tierminimo += str(n + 1) + '\n'
-                beforetotal += str(beforeling) + '\n'
-            quantity = beforeling
-
-        embed.add_field(name='Tier', value=tiertotal, inline=True)
-        embed.add_field(name='Materiales en Bruto', value=mineraltotal, inline=True)
-        embed.add_field(name='Porcentaje de devolucion', value=percent + '%', inline=True)
-
-        embed.add_field(name='Tier', value=tierminimo, inline=True)
-        embed.add_field(name='Materiales Refinados', value=beforetotal, inline=True)
-        embed.add_field(name='Porcentaje de devolucion', value=percent + '%', inline=True)
-        embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
-        await ctx.send(embed=embed)
-
-    elif tier == 'T4':
-        tierValue = 2
-        tiertotal = ''
-        mineraltotal = ''
-        beforetotal = ''
-        tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -286,13 +217,13 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
-    elif tier == 'T5':
-        tierValue = 3
+    elif tier == 'T4' or tier == 't4':
+        tiervalue = 2
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -311,13 +242,13 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
-    elif tier == 'T6':
-        tierValue = 4
+    elif tier == 'T5' or tier == 't5':
+        tiervalue = 3
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -336,13 +267,13 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
-    elif tier == 'T7':
-        tierValue = 5
+    elif tier == 'T6' or tier == 't6':
+        tiervalue = 4
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -361,13 +292,13 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
-    elif tier == 'T8':
-        tierValue = 6
+    elif tier == 'T7' or tier == 't7':
+        tiervalue = 5
         tiertotal = ''
         mineraltotal = ''
         beforetotal = ''
         tierminimo = ''
-        for n in range(tierValue, -1, -1):
+        for n in range(tiervalue, -1, -1):
             calculoprincipal(n, quantity, percent)
             tiertotal += str(n + 2) + '\n'
             mineraltotal += str(mineralneed) + '\n'
@@ -386,6 +317,49 @@ async def refinado(ctx, tier, quantity, percent):
         embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
         await ctx.send(embed=embed)
 
+    elif tier == 'T8' or tier == 't8':
+        tiervalue = 6
+        tiertotal = ''
+        mineraltotal = ''
+        beforetotal = ''
+        tierminimo = ''
+        for n in range(tiervalue, -1, -1):
+            calculoprincipal(n, quantity, percent)
+            tiertotal += str(n + 2) + '\n'
+            mineraltotal += str(mineralneed) + '\n'
+            if n != 0:
+                tierminimo += str(n + 1) + '\n'
+                beforetotal += str(beforeling) + '\n'
+            quantity = beforeling
+
+        embed.add_field(name='Tier', value=tiertotal, inline=True)
+        embed.add_field(name='Materiales en Bruto', value=mineraltotal, inline=True)
+        embed.add_field(name='Porcentaje de devolucion', value=percent + '%', inline=True)
+
+        embed.add_field(name='Tier', value=tierminimo, inline=True)
+        embed.add_field(name='Materiales Refinados', value=beforetotal, inline=True)
+        embed.add_field(name='Porcentaje de devolucion', value=percent + '%', inline=True)
+        embed.set_footer(text='Gracias por usarme, me has hecho muy feliz 🥰')
+        await ctx.send(embed=embed)
+    else:
+        embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
+        embed.add_field(name="Error en el tier valido", value="El rango de tiers validos para el calculo es de: T2 a "
+                                                              "T8.**", inline=False)
+        embed.add_field(name="Ejemplo", value="happy refinado **T5** 900 36.7", inline=False)
+        await ctx.send(embed=embed)
+
+
+@refinado.error
+async def refinado_error(ctx, error):
+    if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
+        embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
+        embed.add_field(name="Error de sintaxis", value="La sintaxis correcta es: **happy refinado [tier] [cantidad] ["
+                                                        "devolucion].**", inline=False)
+        embed.add_field(name="Ejemplo", value="**happy refinado T5 900 36.7**", inline=False)
+        await ctx.send(embed=embed)
+
+
+# ---------------------------- COMANDO RULE34 ----------------------------
 
 @bot.command(name='rule34')
 async def rule34(ctx, *arg):
@@ -395,30 +369,43 @@ async def rule34(ctx, *arg):
     arg = arg.replace('(', '')
     arg = arg.replace(')', '')
     arg = arg.replace("'", '')
-    print(f'[DEBUG {ltime}]: arg is now {arg}')
-    newint = pidfix(arg)
-    if newint > 2000:
-        newint = 2000
-        answer = rdl(arg, random.randint(1, newint))
-    if newint > 1:
-        answer = rdl(arg, random.randint(1, newint))
-    elif newint < 1:
-        if newint == 0:
-            answer = rdl(arg, 0)
-        elif newint != 0:
-            answer = rdl(arg, 1)
 
+    print(f'[DEBUG {ltime}]: Tags ingresados: {arg}')
+
+    # Se genera un URL aleatoria con el generador propio de la libreria de RULE34
+    url = r.urlGen(tags=arg, limit=1)
+    print(f'[DEBUG {ltime}]: URL XML generado: {url}')
+
+    # Se obtiene el valor del atributo count del XML analizado por la funcion xmlcount
+    countnum = int(xmlcount(url))
+    print(f'[INFO {ltime}]: Valor del count extraido del XML: {countnum}')
+
+    # Se obtiene una respuesta enviando el tag de busqueda y un numero aleatorio entre 1 y el valor del atributo count
+    answer = randomize(arg, random.randint(1, countnum))
+    print(f'[INFO {ltime}]: Enlace extraido del XML: {answer}')
+
+    # Se envia al canal de discord el enlace webm resultante
     if 'webm' in answer:
         await ctx.send(answer)
+
+    # Se envia al canal de discord el enlace de la imagen mediante un embed message
     elif 'webm' not in answer:
         embed = discord.Embed(title=f'Rule34: {arg}', color=ctx.author.color)
         embed.set_author(name=f'{ctx.author.display_name}', icon_url=f'{ctx.author.avatar_url}')
         embed.set_thumbnail(url='https://rule34.paheal.net/themes/rule34v2/rule34_logo_top.png')
         embed.set_image(url=f'{answer}')
         embed.set_footer(text="Te gusta lo que ves ?",
-                         icon_url='https://cdn.discordapp.com/avatars/268211297332625428'
-                                  '/e5e43e26d4749c96b48a9465ff564ed2.png?size=128')
+                         icon_url=f'{ctx.author.avatar_url}')
         await ctx.send(embed=embed)
 
+
+@rule34.error
+async def rule34_error(ctx, error):
+    if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
+        embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
+        embed.add_field(name="Error de sintaxis", value="La sintaxis correcta es: **happy rule34 [búsqueda].**",
+                        inline=False)
+        embed.add_field(name="Ejemplo", value="**happy rule34 Kindred**", inline=False)
+        await ctx.send(embed=embed)
 
 bot.run(os.environ['TOKEN'])
