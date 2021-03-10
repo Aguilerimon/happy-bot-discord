@@ -401,7 +401,7 @@ async def rule34(ctx, *arg):
 
 @rule34.error
 async def rule34_error(ctx, error):
-    if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
+    if isinstance(error, discord.ext.commands.errors.CommandInvokeError):
         embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
         embed.add_field(name="Error de sintaxis", value="La sintaxis correcta es: **happy rule34 [búsqueda].**",
                         inline=False)
