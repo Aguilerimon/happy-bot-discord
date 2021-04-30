@@ -404,7 +404,7 @@ async def rule34(ctx, *, arg):
 async def rule34_error(ctx, error):
     if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
         embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
-        embed.add_field(name="!Error en la Matrix!", value="**Debe añadir una búsqueda, estupido!.**",
+        embed.add_field(name="!Error en la Matrix!", value="**Debes añadir una búsqueda, idiota!.**",
                         inline=False)
         embed.add_field(name="Ejemplo de Sintaxis", value="**happy rule34 Kindred**", inline=False)
         embed.set_image(url='https://i.pinimg.com/originals/4f/b4/04/4fb4040f32a0686a41ace938165bfe5a.gif')
