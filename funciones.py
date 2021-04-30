@@ -22,11 +22,23 @@ def xmlcount(url):
 
 
 def randomize(tag, randomint):
+    newint = 0
     r = rule34.Rule34
 
-    # Se vuelve a realizar una busqueda de un numero aleatorio para garantizar el funcionamiento de la recursividad
-    # si es necesaria
-    newint = random.randint(1, randomint)
+    # Se evalua si el argumento de entrada PID es mayor de 2000, si es mayor, la variable randomint se iguala a 2000
+    # y se vuelve a buscar un numero aleatorio entre 2000 y 1
+    if randomint > 2000:
+        randomint = 2000
+        newint = random.randint(1, randomint)
+
+    elif randomint > 1:
+        newint = random.randint(1, randomint)
+
+    elif randomint < 1:
+        if randomint == 0:
+            newint = 0
+        elif randomint != 0:
+            newint = 1
 
     # Se genera una nueva URL, ahora añadiendo el numero generado como valor del argumento PID
     url = r.urlGen(tags=tag, limit=1, PID=newint)

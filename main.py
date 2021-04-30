@@ -2,7 +2,6 @@ import discord
 import random
 import rule34
 import time
-import asyncio
 import os
 
 from funciones import xmlcount, randomize
@@ -362,15 +361,15 @@ async def refinado_error(ctx, error):
 # ---------------------------- COMANDO RULE34 ----------------------------
 
 @bot.command(name='rule34')
-async def rule34(ctx, *arg):
-    answer = ''
+async def rule34(ctx, *, arg):
     arg = str(arg)
-    arg = arg.replace(',', '')
-    arg = arg.replace('(', '')
-    arg = arg.replace(')', '')
-    arg = arg.replace("'", '')
+    # arg = arg.replace(',', '')
+    # arg = arg.replace('(', '')
+    # arg = arg.replace(')', '')
+    # arg = arg.replace("'", '')
 
     print(f'[DEBUG {ltime}]: Tags ingresados: {arg}')
+    waitone = await ctx.send("***:heart: Estoy calculando tus fetiches, espera un poco.***")
 
     # Se genera un URL aleatoria con el generador propio de la libreria de RULE34
     url = r.urlGen(tags=arg, limit=1)
@@ -386,6 +385,7 @@ async def rule34(ctx, *arg):
 
     # Se envia al canal de discord el enlace webm resultante
     if 'webm' in answer:
+        await waitone.delete()
         await ctx.send(answer)
 
     # Se envia al canal de discord el enlace de la imagen mediante un embed message
@@ -396,16 +396,28 @@ async def rule34(ctx, *arg):
         embed.set_image(url=f'{answer}')
         embed.set_footer(text="Te gusta lo que ves ?",
                          icon_url=f'{ctx.author.avatar_url}')
+        await waitone.delete()
         await ctx.send(embed=embed)
+
+    await waitone.delete()
 
 
 @rule34.error
 async def rule34_error(ctx, error):
-    if isinstance(error, discord.ext.commands.errors.CommandInvokeError):
+    if isinstance(error, discord.ext.commands.errors.MissingRequiredArgument):
         embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
-        embed.add_field(name="Error de sintaxis", value="La sintaxis correcta es: **happy rule34 [búsqueda].**",
+        embed.add_field(name="!Error en la Matrix!", value="**Debe añadir una búsqueda, estupido!.**",
                         inline=False)
-        embed.add_field(name="Ejemplo", value="**happy rule34 Kindred**", inline=False)
+        embed.add_field(name="Ejemplo de Sintaxis", value="**happy rule34 Kindred**", inline=False)
+        embed.set_image(url='https://i.pinimg.com/originals/4f/b4/04/4fb4040f32a0686a41ace938165bfe5a.gif')
+        await ctx.send(embed=embed)
+
+    elif isinstance(error, discord.ext.commands.errors.CommandInvokeError):
+        embed = discord.Embed(title="¡Error! ¡HappyBot esta triste!", color=0xfc051c)
+        embed.add_field(name="Error en la Matrix", value="**La búsqueda no existe... aún.**",
+                        inline=False)
+        embed.add_field(name="Ejemplo de Sintaxis", value="**happy rule34 Kindred**", inline=False)
+        embed.set_image(url='https://i.pinimg.com/originals/4f/b4/04/4fb4040f32a0686a41ace938165bfe5a.gif')
         await ctx.send(embed=embed)
 
 bot.run(os.environ['TOKEN'])
