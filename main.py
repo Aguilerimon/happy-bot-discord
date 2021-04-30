@@ -399,8 +399,6 @@ async def rule34(ctx, *, arg):
         await waitone.delete()
         await ctx.send(embed=embed)
 
-    await waitone.delete()
-
 
 @rule34.error
 async def rule34_error(ctx, error):
