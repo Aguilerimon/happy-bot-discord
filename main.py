@@ -378,6 +378,7 @@ async def rule34(ctx, *, arg):
     # Se obtiene el valor del atributo count del XML analizado por la funcion xmlcount
     countnum = int(xmlcount(url))
     print(f'[INFO {ltime}]: Valor del count extraido del XML: {countnum}')
+    print(os.environ['STEAM'])
 
     # Se obtiene una respuesta enviando el tag de busqueda y un numero aleatorio entre 1 y el valor del atributo count
     answer = randomize(arg, random.randint(1, countnum))
