@@ -5,6 +5,7 @@ import os
 from NSFW import NSFW
 from Bolita import Bolita
 from Admin import Admin
+from Musica import Musica
 
 from discord.ext import commands
 
@@ -47,6 +48,10 @@ bot.add_cog(Bolita(bot))
 
 # ---------------------------- COMANDOS ADMINISTRATIVOS -------------------
 bot.add_cog(Admin(bot))
+# -------------------------------------------------------------------------
+
+# --------------------------- COMANDOS MUSICA ----------------------------
+bot.add_cog(Musica(bot))
 # -------------------------------------------------------------------------
 
 bot.run(os.environ['TOKEN'])

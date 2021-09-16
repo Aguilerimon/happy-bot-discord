@@ -2,3 +2,4 @@ discord
 rule34
 asyncio
 numpy
+youtube_dl

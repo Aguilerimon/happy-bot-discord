@@ -69,7 +69,7 @@ class Admin(commands.Cog):
             embed = discord.Embed(description="Hola! Me llamo **HappyBot** Esta es mi lista de comandos disponibles, "
                                               "espero que te diviertas.", color=0xff80ff)
             embed.set_author(name=f'{"Lista de comandos de HappyBot"}', icon_url=f'{self.bot.user.avatar_url}')
-            embed.add_field(name="Diversión", value="`bolita8`", inline=False)
+            embed.add_field(name="Diversión", value="`bolita8` `p`", inline=False)
 
             embed.add_field(name="Administración", value="`limpiar`", inline=False)
 
