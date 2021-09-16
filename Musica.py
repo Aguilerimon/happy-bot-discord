@@ -15,8 +15,9 @@ class Musica(commands.Cog):
         if ctx.author.voice is None:
             await ctx.send("No estas conectado a un canal de voz")
         else:
-            await ctx.send("Conectando al canal de voz...")
+            waitone = await ctx.send("***:heart: Conectando al canal de voz...***")
             await ctx.author.voice.channel.connect()
+            await waitone.delete()
 
     @commands.command()
     async def disconnect(self, ctx):
