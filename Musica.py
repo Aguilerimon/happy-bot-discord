@@ -14,11 +14,9 @@ class Musica(commands.Cog):
     async def join(self, ctx):
         if ctx.author.voice is None:
             await ctx.send("No estas conectado a un canal de voz")
-        if ctx.voice_client is None:
-            print(f'[DEBUG {ltime}]: Conectando al canal de voz..')
-            await ctx.author.voice.channel.connect()
         else:
-            await ctx.voice_client.move_to(ctx.author.voice.channel)
+            await ctx.send("Conectando al canal de voz...")
+            await ctx.author.voice.channel.connect()
 
     @commands.command()
     async def disconnect(self, ctx):
